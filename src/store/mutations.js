@@ -1,9 +1,18 @@
 export default {
-  changeCity (state, city) {
-    state.city = city
+  setUser (state,user) {
+    state.user = user
     try {
-      localStorage.city = city
+      sessionStorage.setItem("user",JSON.stringify(user))
     } catch (e) {
+      console.info(e)
+    }
+  },
+  clearUser(state){
+    state.user = null
+    try {
+      sessionStorage.removeItem("user")
+    } catch (e) {
+      console.info(e)
     }
   }
 }

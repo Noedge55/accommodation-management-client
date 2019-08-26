@@ -4,7 +4,7 @@
             <div class="tip">Welcome</div>
             <input id ="login_id" class="input" type="text" v-model="loginId" placeholder="请输入用户名/手机号/邮箱"/><br>
             <input id ="password" class="input" type="password" v-model="password" placeholder="请输入密码"/><br>
-            <button id="login_btn" class="btn" @click="LoginClick()">登录</button>
+            <button id="login_btn" class="btn" @click="loginClick()">登录</button>
         </div>
         <div class="forget_password">
             <span>忘记密码</span>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Qs from 'qs'
 import md5 from 'js-md5'
 export default {
     name: "Login",
@@ -31,7 +29,7 @@ export default {
         this.content.height  = document.documentElement.clientHeight + 'px';
     },
     methods:{
-        LoginClick(){
+        loginClick(){
             if(!this.loginId || !this.password){
                 alert("用户名或者密码不能为空")
                 return
@@ -46,17 +44,23 @@ export default {
                 "loginId":loginId,
                 "password":password
             }
-            let instance = axios.create({
-                // baseURL: '/am/login.html',
-                // timeout: 1000,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            });
-            // axios.defaults.withCredentials = true
-            // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-            instance.post("/am/login.html",Qs.stringify(person)).then(this.loginSuccess)
+            this.$axios.post("/am/login.html",this.$qs.stringify(person)).then(this.loginSuccess)
         },
         loginSuccess(res){
             console.info(res)
+            if(res && res.data){
+                res = res.data
+                alert(res.message)
+                if(res.retCode == 1){
+                    this.$store.commit("setUser",res.result)
+                    this.$router.push('/')
+                }
+            }
+        },
+    },
+    mounted() {
+        if(sessionStorage.getItem("user")){
+           this.$router.push('/')
         }
     }
 }
