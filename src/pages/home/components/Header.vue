@@ -5,7 +5,7 @@
                 <div class="iconfont back-icon"></div>
             </div>
             <div class="header-title">
-                我管理的旅社
+                主页
             </div>
             <router-link to="/addHotel">
                 <div class="header-right">
