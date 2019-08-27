@@ -23,10 +23,11 @@
 </script>
 
 <style lang="stylus" scoped>
+    @import "~styles/varibles.styl"
     .header
         display : flex
         line-height:.86rem
-        background: #25a4bb
+        background: $bgColor
         color:#fff
         .header-left
             float: left

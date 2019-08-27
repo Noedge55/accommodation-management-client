@@ -23,8 +23,10 @@ const router = new Router({
 })
 
 router.beforeEach(function (to, from, next) {
+  console.info("to:")
   console.info(to)
   if(to.meta.requireAuth){
+    console.info(sessionStorage.getItem("user"))
     if(sessionStorage.getItem("user")) {
       next()
     }else {

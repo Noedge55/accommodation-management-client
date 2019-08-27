@@ -1,15 +1,17 @@
 <template>
     <div>
         <ul>
-            <router-link tag="li" :to="'/detail/' + item.id" class="item border-bottom" v-for="item of hostelList" :key="item.id">
+            <li class="item border-bottom" v-for="item of hostelList" :key="item.id">
+
                 <!--<img class="item-img" :src="item.imgUrl"/>-->
-                <span class="iconfont item-img">&#xe61c;</span>
+<!--                <span class="iconfont item-img">&#xe61c;</span>-->
                 <div class="item-info">
-                    <p class="info-title">{{item.title}}</p>
-                    <p class="info-desc"><span>床位情况：</span>{{item.totalNum}} / {{item.livingNum}}</p>
-                    <button class="info-button">查看详情</button>
+                        <p class="info-title">{{item.title}}</p>
+                        <p class="info-desc"><span>床位情况：</span>{{item.totalNum}} / {{item.livingNum}}</p>
+                    <router-link :to="'/editHostel/' + item.id" class="iconfont edit-button">&#xe63c;</router-link>
                 </div>
-            </router-link>
+                <router-link tag="button" :to="'/hostelDetail/' + item.id" class="iconfont to-button">&#xe627;</router-link>
+            </li>
         </ul>
     </div>
 </template>
@@ -25,6 +27,12 @@
                     "title":"辣鸡",
                     "totalNum":20,
                     "livingNum":3
+                },{
+                    "id":2,
+                    "imgUrl":"12313",
+                    "title":"辣鸡",
+                    "totalNum":20,
+                    "livingNum":3
                 }]
             }
         }
@@ -32,6 +40,7 @@
 </script>
 
 <style lang="stylus" scoped>
+    @import "~styles/varibles.styl"
     .item
         overflow: hidden
         display: flex
@@ -53,11 +62,15 @@
                 line-height .4rem
                 color #ccc
                 ellipsis()
-            .info-button
+            .edit-button
                 line-height .44rem
                 margin-top .16rem
-                background #ff9300
+                color black
                 padding 0 .2rem
                 border-radius .06rem
-                color #fff
+        .to-button
+            background $bgColor
+            float right
+            width 20%
+            font-size 0.5rem
 </style>
