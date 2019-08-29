@@ -59,9 +59,7 @@ export default {
         },
     },
     mounted() {
-        if(sessionStorage.getItem("user")){
-           this.$router.push('/')
-        }
+
     }
 }
 </script>

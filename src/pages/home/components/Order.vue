@@ -10,18 +10,18 @@
     <div>
         <table class="icons">
             <tr id="row1" class="row">
-                <td rowspan="2" class="first">
+                <router-link tag="td" rowspan="2" class="first" :to="{path:'/order/' + personId,query:{date:'all'}}">
                     <div class="order">
                         <span class="iconfont order-icons">&#xe60d;</span>
                     </div>
                     <span>订单</span>
-                </td>
-                <td class="others">本月订单</td>
-                <td class="others">本周订单</td>
+                </router-link>
+                <router-link tag="td" class="others" :to="{path:'/order/' + personId,query:{date:'today'}}">今日订单</router-link>
+                <router-link tag="td" class="others" :to="{path:'/order/' + personId,query:{date:'yesterday'}}">昨日订单</router-link>
             </tr>
             <tr id="row2" class="row">
-                <td class="others">昨日订单</td>
-                <td class="others">今日订单</td>
+                <router-link tag="td" class="others" :to="{path:'/order/' + personId,query:{date:'week'}}">本周订单</router-link>
+                <router-link tag="td" class="others" :to="{path:'/order/' + personId,query:{date:'month'}}">本月订单</router-link>
             </tr>
         </table>
     </div>
@@ -29,7 +29,14 @@
 
 <script>
     export default {
-        name: "HomeIcons"
+        name: "HomeOrder",
+        data(){
+            return {
+                personId : this.$store.state.user.id
+            }
+        },
+        methods:{
+        }
     }
 </script>
 

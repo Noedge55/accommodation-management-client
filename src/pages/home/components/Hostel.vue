@@ -6,11 +6,11 @@
                 <!--<img class="item-img" :src="item.imgUrl"/>-->
 <!--                <span class="iconfont item-img">&#xe61c;</span>-->
                 <div class="item-info">
-                        <p class="info-title">{{item.title}}</p>
-                        <p class="info-desc"><span>床位情况：</span>{{item.totalNum}} / {{item.livingNum}}</p>
-                    <router-link :to="'/editHostel/' + item.id" class="iconfont edit-button">&#xe63c;</router-link>
+                        <p class="info-title">{{item.name}}</p>
+                        <p class="info-desc"><span>床位情况：</span>{{item.livingNum}} / {{item.totalNum}}</p>
+                    <router-link :to="'/editHostel/' + item.id" :hostelId="item.hostelId" class="iconfont edit-button">&#xe63c;</router-link>
                 </div>
-                <router-link tag="button" :to="'/hostelDetail/' + item.id" class="iconfont to-button">&#xe627;</router-link>
+                <router-link tag="button" :to="'/hostelDetail/' + item.id" :hostelId="item.hostelId" class="iconfont to-button">&#xe627;</router-link>
             </li>
         </ul>
     </div>
@@ -21,7 +21,7 @@
         name: "HomeHostel",
         data () {
             return {
-                hostelList: [{
+                hostelList1: [{
                     "id":1,
                     "imgUrl":"12313",
                     "title":"辣鸡",
@@ -35,6 +35,9 @@
                     "livingNum":3
                 }]
             }
+        },
+        props:{
+            hostelList: Array
         }
     }
 </script>
