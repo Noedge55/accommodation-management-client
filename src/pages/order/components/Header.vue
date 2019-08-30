@@ -1,24 +1,18 @@
 <template>
     <div>
-        <div class="header">
-            <div class="header-left" @click="back()">
-                <div class="iconfont back-icon">&#xe624;</div>
-            </div>
-            <div class="header-title">
-                入住订单
-            </div>
+        <common-header :title="'订单'" :is-show-left="true" :is-show-right="true">
             <router-link to="/addOrder">
-                <div class="header-right">
-                    <span class="iconfont add-icon">&#xe61e;</span>
-                </div>
+                <slot name="rightIcon"></slot>
             </router-link>
-        </div>
+        </common-header>
     </div>
 </template>
 
 <script>
+    import CommonHeader from '../../common/Header'
     export default {
         name: "OrderHeader",
+        components: {CommonHeader},
         methods:{
             back(){
                 this.$router.go(-1)

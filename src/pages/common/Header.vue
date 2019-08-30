@@ -1,19 +1,17 @@
 <template>
-    <div>
-        <div class="header">
-            <div class="header-warp">
-                <div class="header-left">
-                    <div class="iconfont back-icon"></div>
-                </div>
-                <div class="header-title">
-                    主页
-                </div>
-                <router-link to="/addHotel">
-                    <div class="header-right">
-                        <span class="iconfont add-icon">&#xe61e;</span>
-                    </div>
-                </router-link>
+    <div class="header">
+        <div class="header-warp">
+            <div class="header-left" v-show="isShowLeft" @click="back()">
+                <div class="iconfont back-icon">&#xe624;</div>
             </div>
+            <div class="header-title">
+                {{title}}
+            </div>
+            <slot name="rightIcon">
+                <div class="header-right" v-show="isShowRight">
+                    <span class="iconfont add-icon">&#xe61e;</span>
+                </div>
+            </slot>
         </div>
     </div>
 </template>
@@ -22,7 +20,14 @@
     export default {
         name: "CommonHeader",
         props:{
-            title:String
+            title:String,
+            isShowLeft:Boolean,
+            isShowRight:Boolean
+        },
+        methods:{
+            back(){
+                this.$router.go(-1)
+            }
         }
     }
 </script>
@@ -40,9 +45,12 @@
             right: 0
             left: 0
             line-height:$HeaderHeight
+            z-index 1
             .header-left
                 float: left
                 min-width: 1.04rem
+                position fixed
+                left 0
                 .back-icon
                     text-align:center
                     font-size:.4rem
@@ -50,10 +58,12 @@
                 flex:1
                 text-align center
                 font-size 0.3rem
-                color: #333333
                 font-weight bolder
                 letter-spacing 0.1rem
+                color: #333333
             .header-right
+                position fixed
+                right 0
                 min-width:1.04rem
                 float:right
                 text-align:center

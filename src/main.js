@@ -10,8 +10,8 @@ import './assets/styles/border.css'
 import './assets/styles/iconfont/iconfont.css'
 import './config/global'
 import axios from './myAxios'
-
 import IconSvg from './pages/common/IconSvg'
+
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = Qs
