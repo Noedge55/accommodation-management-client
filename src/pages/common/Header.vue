@@ -20,7 +20,10 @@
 
 <script>
     export default {
-        name: "HomeHeader"
+        name: "CommonHeader",
+        props:{
+            title:String
+        }
     }
 </script>
 

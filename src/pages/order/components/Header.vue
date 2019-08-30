@@ -7,7 +7,7 @@
             <div class="header-title">
                 入住订单
             </div>
-            <router-link to="/addHotel">
+            <router-link to="/addOrder">
                 <div class="header-right">
                     <span class="iconfont add-icon">&#xe61e;</span>
                 </div>
@@ -21,7 +21,7 @@
         name: "OrderHeader",
         methods:{
             back(){
-                this.$route.push("/")
+                this.$router.go(-1)
             }
         }
     }
@@ -31,7 +31,7 @@
     @import "~styles/varibles.styl"
     .header
         display : flex
-        line-height:.86rem
+        line-height:$HeaderHeight
         background: $bgColor
         color:#fff
         .header-left
