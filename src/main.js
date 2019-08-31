@@ -4,18 +4,22 @@ import router from './router'
 import fastClick from 'fastclick'
 import store from './store'
 import Qs from 'qs'
+import axios from './myAxios'
+import IconSvg from './pages/common/IconSvg'
+import VueBetterScroll from 'vue2-better-scroll'
+
 import './assets/styles/iconfont/iconfont.js'
 import './assets/styles/reset.css'
 import './assets/styles/border.css'
 import './assets/styles/iconfont/iconfont.css'
+
 import './config/global'
-import axios from './myAxios'
-import IconSvg from './pages/common/IconSvg'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = Qs
 Vue.component('icon-svg', IconSvg)
+Vue.use(VueBetterScroll)
 
 fastClick.attach(document.body)
 

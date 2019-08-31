@@ -26,7 +26,9 @@ const router = new Router({
       path: '/order/:personId',
       name: 'Order',
       meta: {
-        requireAuth:true
+        requireAuth:true,
+        keepAlive:false
+
       },
       component: Order
     }

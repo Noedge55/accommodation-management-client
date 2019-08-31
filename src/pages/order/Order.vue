@@ -1,7 +1,7 @@
 <template>
     <div>
         <order-header></order-header>
-        <order-filter></order-filter>
+        <order-filter v-on:paramsChange="paramsChange"></order-filter>
         <order-item></order-item>
     </div>
 </template>
@@ -15,10 +15,15 @@
         data(){
             return{
                 hostelId:this.$route.params.personId,
-                data:this.$route.query.date
+                dateType:this.$route.query.date
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
+        methods:{
+            paramsChange(params){
+                console.info("params" + params.dateType)
+            }
+        },
         mounted() {
             console.info(this.$route.params.personId + " " + this.$route.query.date)
         }
