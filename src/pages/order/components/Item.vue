@@ -1,25 +1,36 @@
 <template>
     <div>
-        <ul>
-            <li class="item border-bottom" v-for="item of hostelList" :key="item.id">
-                <div class="itemIcon">
-                    <span class="iconfont iconContent">&#xe6ad;</span>
-                </div>
-                <div class="item-info">
-                    <p class="info-title">
-                        <span>{{item.title}}</span>
-                        <span class="amount">￥100</span>
-                    </p>
-                    <p class="info-person">
-                        <span>入住人数：{{item.livingNum}}</span>
-                        <span class="name">联系人：小明</span>
-                    </p>
-                    <p class="info-date"><span class="checkIn">入住：2019-08-31</span><span class="checkOut">离店：2019-09-01</span></p>
-                    <p class="info-time"><span>订单时间：</span>2019-08-31 10:00:00</p>
-                </div>
-                <router-link tag="button" :to="'/hostelDetail/' + item.id" :hostelId="item.hostelId" class="iconfont to-button">&#xe617;</router-link>
-            </li>
-        </ul>
+        <main class="position-box">
+            <vue-better-scroll class="wrapper"
+                               ref="scroll"
+                               :scrollbar="true"
+                               :pullDownRefresh="pullDownRefreshObj"
+                               :pullUpLoad="pullUpLoadObj"
+                               :startY="parseInt(startY)"
+                               @pulling-down="onPullingDown"
+                               @pulling-up="onPullingUp">
+                <ul>
+                    <li class="item border-bottom" v-for="item of hostelList" :key="item.id">
+                        <div class="itemIcon">
+                            <span class="iconfont iconContent">&#xe6ad;</span>
+                        </div>
+                        <div class="item-info">
+                            <p class="info-title">
+                                <span>{{item.title}}</span>
+                                <span class="amount">￥100</span>
+                            </p>
+                            <p class="info-person">
+                                <span>入住人数：{{item.livingNum}}</span>
+                                <span class="name">联系人：小明</span>
+                            </p>
+                            <p class="info-date"><span class="checkIn">入住：2019-08-31</span><span class="checkOut">离店：2019-09-01</span></p>
+                            <p class="info-time"><span>订单时间：</span>2019-08-31 10:00:00</p>
+                        </div>
+                        <router-link tag="button" :to="'/hostelDetail/' + item.id" :hostelId="item.hostelId" class="iconfont to-button">&#xe617;</router-link>
+                    </li>
+                </ul>
+            </vue-better-scroll>
+        </main>
     </div>
 </template>
 
@@ -40,9 +51,50 @@
                     "title":"辣鸡",
                     "totalNum":20,
                     "livingNum":3
-                }]
+                }],
+                page:0,
+                pullDownRefreshObj:{
+                    threshold: 90,
+                    stop: 40
+                },
+                // 这个配置用于做上拉加载功能，默认为 false。当设置为 true 或者是一个 Object 的时候，可以开启上拉加载，可以配置离底部距离阈值（threshold）来决定开始加载的时机
+                pullUpLoadObj: {
+                    threshold: 0,
+                    txt: {
+                        more: '加载更多',
+                        noMore: '没有更多数据了'
+                    }
+                },
+                startY: 0, // 纵轴方向初始化位置
+                scrollToX: 0,
+                scrollToY: 0,
+                scrollToTime: 700,
+                items: []
             }
         },
+        methods:{
+            // 滚动到页面顶部
+            scrollTo() {
+                this.$refs.scroll.scrollTo(this.scrollToX, this.scrollToY, this.scrollToTime)
+            },
+            getData() {
+                this.$emit('paramsChange',this.page,1)
+            },
+            onPullingDown() {
+                // 模拟下拉刷新
+                console.log('下拉刷新')
+                this.page = 0
+                this.getData()
+            },
+            onPullingUp() {
+                // 模拟上拉 加载更多数据
+                console.log('上拉加载')
+                this.page++
+                this.getData()
+            }
+        },mounted() {
+            this.onPullingDown()
+        }
         // props:{
         //     hostelList: Array
         // }
@@ -51,6 +103,13 @@
 
 <style lang="stylus" scoped>
     @import "~styles/varibles.styl"
+    .position-box {
+        position: fixed;
+        top: 1.86rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
     .item
         overflow: hidden
         display: flex

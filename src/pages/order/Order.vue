@@ -2,7 +2,7 @@
     <div>
         <order-header></order-header>
         <order-filter v-on:paramsChange="paramsChange"></order-filter>
-        <order-item></order-item>
+        <order-item v-on:paramsChange="paramsChange"></order-item>
     </div>
 </template>
 
@@ -15,13 +15,40 @@
         data(){
             return{
                 hostelId:this.$route.params.personId,
-                dateType:this.$route.query.date
+                dateType:this.$route.query.date,
+                startDate:'',
+                endDate:'',
+                page:0
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
         methods:{
-            paramsChange(params){
-                console.info("params" + params.dateType)
+            paramsChange(params,type){
+                if(type == 0){
+                    this.page = 0;
+                    this.dateType = params.dateType
+                    this.startDate = params.startDate
+                    this.endDate = params.endDate
+                }else if(type == 1){
+                    this.page = params
+                }
+                let param = {
+                    dateType:this.dateType,
+                    startDate: this.startDate,
+                    endDate:this.endDate,
+                    page:this.page
+                }
+                this.$axios.post("/am/getOrders.html",this.$qs.stringify(param)).then(this.getOrdersSucc)
+            },
+            getOrdersSucc(res){
+                console.info(res)
+                // if(res.data){
+                //     if(res.data.retCode == 0){
+                //         this.orderList = res.data.result
+                //     }else {
+                //         alert(res.data.message)
+                //     }
+                // }
             }
         },
         mounted() {

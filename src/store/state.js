@@ -1,3 +1,4 @@
 export default {
-  user: JSON.parse(sessionStorage.getItem("user"))
+  user: JSON.parse(sessionStorage.getItem("user")),
+  orderList:[]
 }

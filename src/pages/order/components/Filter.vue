@@ -117,7 +117,7 @@
                     startDate:this.startValue,
                     endDate:this.endValue
                 }
-                this.$emit('paramsChange',params)
+                this.$emit('paramsChange',params,0)
             },
             returnDateObj(dateObj){
                 return this.dateTypeList[this.dateTypeList.findIndex(function (element) {
