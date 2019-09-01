@@ -33,6 +33,7 @@
                     this.page = params
                 }
                 let param = {
+                    personId:this.$store.state.user.id,
                     dateType:this.dateType,
                     startDate: this.startDate,
                     endDate:this.endDate,
