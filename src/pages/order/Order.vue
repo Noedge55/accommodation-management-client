@@ -1,7 +1,7 @@
 <template>
     <div>
         <order-header></order-header>
-        <order-filter v-on:paramsChange="paramsChange"></order-filter>
+        <order-filter :hostelList="hostelList" :hostelIds="hostelIds" v-on:paramsChange="paramsChange"></order-filter>
         <order-item v-on:paramsChange="paramsChange"></order-item>
     </div>
 </template>
@@ -18,25 +18,41 @@
                 dateType:this.$route.query.date,
                 startDate:'',
                 endDate:'',
-                page:0
+                page:0,
+                hostelList:[],
+                hostelIds:[],
+                checkIds:[]
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
         methods:{
+            getHostelsSucc(res){
+                if(res.data){
+                    if(res.data.retCode == 0){
+                        this.hostelList = res.data.result;
+                        let ids = []
+                        this.hostelList.forEach(function (value) {
+                            ids.push(value.id)
+                        })
+                        this.hostelIds = ids
+                    }
+                }
+            },
             paramsChange(params,type){
                 if(type == 0){
                     this.page = 0;
                     this.dateType = params.dateType
                     this.startDate = params.startDate
                     this.endDate = params.endDate
+                    this.checkIds = params.checkIds
                 }else if(type == 1){
                     this.page = params
                 }
                 let param = {
-                    personId:this.$store.state.user.id,
                     dateType:this.dateType,
                     startDate: this.startDate,
                     endDate:this.endDate,
+                    checkIds:this.checkIds,
                     page:this.page
                 }
                 this.$axios.post("/am/getOrders.html",this.$qs.stringify(param)).then(this.getOrdersSucc)
@@ -52,8 +68,8 @@
                 // }
             }
         },
-        mounted() {
-            console.info(this.$route.params.personId + " " + this.$route.query.date)
+        mounted(){
+            this.$axios.post("/am/getHostels.html").then(this.getHostelsSucc)
         }
     }
 </script>

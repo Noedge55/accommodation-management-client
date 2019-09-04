@@ -24,6 +24,13 @@
                         </a-select-option>
                     </a-select>
                 </div>
+                <a-checkbox-group class="aCheckGroup" :defaultValue="hostelIds" @change="onChange">
+                    <a-row>
+                        <a-col :span="12" class="aCheckBok" :key="item.id" v-for="item in hostelList">
+                            <a-checkbox :value="item.id">{{item.name}}</a-checkbox>
+                        </a-col>
+                    </a-row>
+                </a-checkbox-group>
                 <div class="date-picker" v-if="isByDay">
                     <a-date-picker
                             :disabledDate="disabledStartDate"
@@ -55,16 +62,25 @@
 <script>
     import moment from 'moment';
     import 'moment/locale/zh-cn';
-    import { DatePicker,Select,Button } from 'ant-design-vue';
+    import { DatePicker,Select,Button,Checkbox,Row,Col } from 'ant-design-vue';
     moment.locale('zh-cn');
     const { Option } = Select;
+    const { Group } = Checkbox;
     export default {
         name: "OrderFilter",
         components:{
             ADatePicker:DatePicker,
             ASelect:Select,
             ASelectOption:Option,
-            AButton:Button
+            AButton:Button,
+            ACheckboxGroup:Group,
+            ACheckbox:Checkbox,
+            ARow:Row,
+            ACol:Col
+        },
+        props:{
+            hostelList:Array,
+            hostelIds:Array
         },
         data(){
             return{
@@ -78,7 +94,7 @@
                     {
                         id : 0,
                         key : 'all',
-                        value : '全部'
+                        value : '全部时间'
                     },{
                         id : 1,
                         key : 'today',
@@ -98,7 +114,8 @@
                     }
                 ],
                 dateTypeValue:'',
-                isByDay:false
+                isByDay:false,
+                checkIds:null
             }
         },
         methods:{
@@ -112,10 +129,14 @@
             okHandle(){
                 this.isShow = false
                 this.dateTypeValue = this.returnDateObj(this.dateType).value
+                if(!this.checkIds){
+                    this.checkIds = this.hostelIds
+                }
                 let params = {
                     dateType:this.dateType,
                     startDate:this.startValue,
-                    endDate:this.endValue
+                    endDate:this.endValue,
+                    checkIds: this.checkIds
                 }
                 this.$emit('paramsChange',params,0)
             },
@@ -146,6 +167,10 @@
             handleEndOpenChange (open) {
                 this.endOpen = open;
             },
+            onChange (checkedValues) {
+                this.checkIds = checkedValues
+                console.log('checked = ', this.checkIds)
+            },
         },
         computed:{
         },
@@ -166,7 +191,6 @@
         },
         mounted() {
             this.dateTypeValue = this.returnDateObj(this.dateType).value
-
         }
     }
 </script>
@@ -234,7 +258,11 @@
                 margin-right 0.2rem
             .ok-button
                 margin-left 0.2rem
-
+        .aCheckGroup
+            margin 0.2rem
+            width 100%
+            .aCheckBok
+                width 40%
     .slide-fade-enter-active
         animation: bounce-in .5s;
     @keyframes bounce-in
