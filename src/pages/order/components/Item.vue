@@ -10,23 +10,23 @@
                                @pulling-down="onPullingDown"
                                @pulling-up="onPullingUp">
                 <ul>
-                    <li class="item border-bottom" v-for="item of hostelList" :key="item.id">
+                    <li class="item border-bottom" v-for="item of billList" :key="item.id">
                         <div class="itemIcon">
-                            <span class="iconfont iconContent">&#xe6ad;</span>
+                            <span class="iconfont iconContent">{{global.billIcon[item.sourceId]}}</span>
                         </div>
                         <div class="item-info">
                             <p class="info-title">
-                                <span>{{item.title}}</span>
-                                <span class="amount">￥100</span>
+                                <span>{{item.hostelName}}</span>
+                                <span class="amount">{{item.amount}}</span>
                             </p>
                             <p class="info-person">
                                 <span>入住人数：{{item.livingNum}}</span>
-                                <span class="name">联系人：小明</span>
+                                <span class="name">联系人：{{item.personNames}}</span>
                             </p>
-                            <p class="info-date"><span class="checkIn">入住：2019-08-31</span><span class="checkOut">离店：2019-09-01</span></p>
-                            <p class="info-time"><span>订单时间：</span>2019-08-31 10:00:00</p>
+                            <p class="info-date"><span class="checkIn">入住：{{item.checkInDate}}</span><span class="checkOut">离店：{{item.checkOutDate}}</span></p>
+                            <p class="info-time"><span>订单时间：</span>{{item.spendTime}}</p>
                         </div>
-                        <router-link tag="button" :to="'/hostelDetail/' + item.id" :hostelId="item.hostelId" class="iconfont to-button">&#xe617;</router-link>
+                        <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;</router-link>
                     </li>
                 </ul>
             </vue-better-scroll>
@@ -37,21 +37,24 @@
 <script>
     export default {
         name: "OrderItem",
+        props:{
+            billList:Array
+        },
         data () {
             return {
-                hostelList: [{
-                    "id":1,
-                    "imgUrl":"12313",
-                    "title":"辣鸡",
-                    "totalNum":20,
-                    "livingNum":3
-                },{
-                    "id":2,
-                    "imgUrl":"12313",
-                    "title":"辣鸡",
-                    "totalNum":20,
-                    "livingNum":3
-                }],
+                // hostelList: [{
+                //     "id":1,
+                //     "imgUrl":"12313",
+                //     "title":"辣鸡",
+                //     "totalNum":20,
+                //     "livingNum":3
+                // },{
+                //     "id":2,
+                //     "imgUrl":"12313",
+                //     "title":"辣鸡",
+                //     "totalNum":20,
+                //     "livingNum":3
+                // }],
                 page:0,
                 pullDownRefreshObj:{
                     threshold: 90,

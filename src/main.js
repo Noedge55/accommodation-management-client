@@ -13,7 +13,7 @@ import './assets/styles/reset.css'
 import './assets/styles/border.css'
 import './assets/styles/iconfont/iconfont.css'
 
-import './config/global'
+import './config/global.js'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

@@ -8,8 +8,8 @@
                 </span>
             </div>
             <div class="totalAmount">
-                <p>收入：￥100</p>
-                <p>支出：￥100</p>
+                <p>收入：{{(billStatistics[0]['0'] + billStatistics[0]['1']).toFixed(2)}}</p>
+                <p>支出：{{billStatistics[0]['2']}}</p>
             </div>
         </div>
         <transition name="slide-fade">
@@ -80,7 +80,8 @@
         },
         props:{
             hostelList:Array,
-            hostelIds:Array
+            hostelIds:Array,
+            billStatistics:Array
         },
         data(){
             return{

@@ -1,8 +1,8 @@
 <template>
     <div>
         <order-header></order-header>
-        <order-filter :hostelList="hostelList" :hostelIds="hostelIds" v-on:paramsChange="paramsChange"></order-filter>
-        <order-item v-on:paramsChange="paramsChange"></order-item>
+        <order-filter :hostelList="hostelList" :hostelIds="hostelIds" :billStatistics="billStatistics" v-on:paramsChange="paramsChange"></order-filter>
+        <order-item v-on:paramsChange="paramsChange" :billList="billList"></order-item>
     </div>
 </template>
 
@@ -21,7 +21,13 @@
                 page:0,
                 hostelList:[],
                 hostelIds:[],
-                checkIds:[]
+                checkIds:[],
+                billList:[],
+                billStatistics:[{
+                    0:0.00,
+                    1:0.00,
+                    2:0.00
+            }],
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
@@ -52,20 +58,21 @@
                     dateType:this.dateType,
                     startDate: this.startDate,
                     endDate:this.endDate,
-                    checkIds:this.checkIds,
+                    checkIds:this.checkIds.toString(),
                     page:this.page
                 }
                 this.$axios.post("/am/getOrders.html",this.$qs.stringify(param)).then(this.getOrdersSucc)
             },
             getOrdersSucc(res){
                 console.info(res)
-                // if(res.data){
-                //     if(res.data.retCode == 0){
-                //         this.orderList = res.data.result
-                //     }else {
-                //         alert(res.data.message)
-                //     }
-                // }
+                if(res.data){
+                    if(res.data.retCode == 0){
+                        this.billList = res.data.result.billList;
+                        this.billStatistics = res.data.result.billStatistics;
+                    }else {
+                        alert(res.data.message)
+                    }
+                }
             }
         },
         mounted(){
