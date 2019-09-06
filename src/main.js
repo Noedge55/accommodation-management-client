@@ -13,13 +13,14 @@ import './assets/styles/reset.css'
 import './assets/styles/border.css'
 import './assets/styles/iconfont/iconfont.css'
 
-import './config/global.js'
+import global from './config/global.js'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = Qs
 Vue.component('icon-svg', IconSvg)
 Vue.use(VueBetterScroll)
+Vue.use(global)
 
 fastClick.attach(document.body)
 

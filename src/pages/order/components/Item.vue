@@ -11,22 +11,42 @@
                                @pulling-up="onPullingUp">
                 <ul>
                     <li class="item border-bottom" v-for="item of billList" :key="item.id">
-                        <div class="itemIcon">
-                            <span class="iconfont iconContent">{{global.billIcon[item.sourceId]}}</span>
-                        </div>
-                        <div class="item-info">
-                            <p class="info-title">
-                                <span>{{item.hostelName}}</span>
-                                <span class="amount">{{item.amount}}</span>
-                            </p>
-                            <p class="info-person">
-                                <span>入住人数：{{item.livingNum}}</span>
-                                <span class="name">联系人：{{item.personNames}}</span>
-                            </p>
-                            <p class="info-date"><span class="checkIn">入住：{{item.checkInDate}}</span><span class="checkOut">离店：{{item.checkOutDate}}</span></p>
-                            <p class="info-time"><span>订单时间：</span>{{item.spendTime}}</p>
-                        </div>
-                        <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;</router-link>
+                        <template v-if="item.billType == 0">
+                            <div class="itemIcon">
+                                <span class="iconfont iconContent" v-html="billIcon[item.sourceId]"></span>
+                            </div>
+                            <div class="item-info">
+                                <p class="info-title">
+                                    <span>{{item.hostelName}}</span>
+                                    <span class="amount">{{item.amount}}</span>
+                                </p>
+                                <p class="info-person">
+                                    <span>入住人数：{{item.livingNum}}</span>
+                                    <span class="name">联系人：{{item.personNames}}</span>
+                                </p>
+                                <p class="info-date"><span class="checkIn">入住：{{item.checkInDate}}</span><span class="checkOut">离店：{{item.checkOutDate}}</span></p>
+                                <p class="info-time"><span>订单时间：</span>{{item.spendTime}}</p>
+                            </div>
+                            <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;</router-link>
+                        </template>
+                        <template v-else>
+                            <div class="itemIcon">
+                                <span class="iconfont iconContent" v-html="item.billType == 1 ?billIcon[9]:billIcon[10]"></span>
+                            </div>
+                            <div class="item-info">
+                                <p class="info-title">
+                                    <span>{{item.hostelName}}</span>
+                                    <span class="amount">{{item.amount}}</span>
+                                </p>
+                                <p class="info-person">
+                                    <span>入住人数：{{item.livingNum}}</span>
+                                    <span class="name">联系人：{{item.personNames}}</span>
+                                </p>
+                                <p class="info-date"><span class="checkIn">入住：{{item.checkInDate}}</span><span class="checkOut">离店：{{item.checkOutDate}}</span></p>
+                                <p class="info-time"><span>订单时间：</span>{{item.spendTime}}</p>
+                            </div>
+                            <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;</router-link>
+                        </template>
                     </li>
                 </ul>
             </vue-better-scroll>
@@ -72,7 +92,8 @@
                 scrollToX: 0,
                 scrollToY: 0,
                 scrollToTime: 700,
-                items: []
+                items: [],
+                billIcon:this.billIcon,
             }
         },
         methods:{
@@ -97,6 +118,7 @@
             }
         },mounted() {
             this.onPullingDown()
+            console.info(this.billIcon['1'].iconStyle);
         }
         // props:{
         //     hostelList: Array
