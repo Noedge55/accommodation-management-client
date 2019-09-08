@@ -2,7 +2,22 @@
     <div>
         <order-header></order-header>
         <order-filter :hostelList="hostelList" :hostelIds="hostelIds" :billStatistics="billStatistics" v-on:paramsChange="paramsChange"></order-filter>
-        <order-item v-on:paramsChange="paramsChange" :billList="billList"></order-item>
+        <main class="position-box">
+            <vue-better-scroll v-show="HasData"
+                               class="wrapper"
+                               ref="scroll"
+                               :scrollbar="true"
+                               :pullDownRefresh="pullDownRefreshObj"
+                               :pullUpLoad="pullUpLoadObj"
+                               :startY="parseInt(startY)"
+                               @pulling-down="onPullingDown"
+                               @pulling-up="onPullingUp">
+                <order-item v-on:paramsChange="paramsChange" :billList="billList"></order-item>
+            </vue-better-scroll>
+            <div class="no-content" v-show="! HasData">
+                暂无数据
+            </div>
+        </main>
     </div>
 </template>
 
@@ -27,7 +42,25 @@
                     0:0.00,
                     1:0.00,
                     2:0.00
-            }],
+                }],
+                pullDownRefreshObj:{
+                    threshold: 90,
+                    stop: 40
+                },
+                // 这个配置用于做上拉加载功能，默认为 false。当设置为 true 或者是一个 Object 的时候，可以开启上拉加载，可以配置离底部距离阈值（threshold）来决定开始加载的时机
+                pullUpLoadObj: {
+                    threshold: 0,
+                    txt: {
+                        more: '加载更多',
+                        noMore: '没有更多数据了'
+                    }
+                },
+                startY: 0, // 纵轴方向初始化位置
+                scrollToX: 0,
+                scrollToY: 0,
+                scrollToTime: 700,
+                totalPage:0,
+                HasData:true
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
@@ -64,23 +97,69 @@
                 this.$axios.post("/am/getOrders.html",this.$qs.stringify(param)).then(this.getOrdersSucc)
             },
             getOrdersSucc(res){
+                let me = this;
                 console.info(res)
                 if(res.data){
                     if(res.data.retCode == 0){
-                        this.billList = res.data.result.billList;
+                        if(res.data.result.billList.length <= 0){
+                            if(this.page == 0){
+                                this.hasData = false
+                            }
+                            this.totalPage = this.page
+                            this.$refs.scroll.forceUpdate(false)
+                            return
+                        }else {
+                            this.hasData = true
+                        }
+                        if(this.page == 0){
+                            this.billList = []
+                        }
+                        res.data.result.billList.forEach(function (item) {
+                            me.billList.push(item)
+                        })
                         this.billStatistics = res.data.result.billStatistics;
+                        this.$refs.scroll.forceUpdate(true)
                     }else {
                         alert(res.data.message)
                     }
                 }
+            },
+            // 滚动到页面顶部
+            scrollTo() {
+                this.$refs.scroll.scrollTo(this.scrollToX, this.scrollToY, this.scrollToTime)
+            },
+            onPullingDown() {
+                // 模拟下拉刷新
+                console.log('下拉刷新')
+                this.page = 0
+                this.paramsChange(this.page,1)
+            },
+            onPullingUp() {
+                // 模拟上拉 加载更多数据
+                console.log('上拉加载')
+                if(this.totalPage != 0 && this.page == this.totalPage){
+                    return;
+                }
+                this.page++
+                this.paramsChange(this.page,1)
             }
         },
         mounted(){
             this.$axios.post("/am/getHostels.html").then(this.getHostelsSucc)
+            this.onPullingDown()
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+    @import "~styles/varibles.styl"
+    .position-box
+        position: fixed;
+        top: 1.86rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        .no-content
+            text-align center
+            margin-top 50%
 </style>
