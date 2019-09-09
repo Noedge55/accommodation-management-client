@@ -101,6 +101,7 @@
                 console.info(res)
                 if(res.data){
                     if(res.data.retCode == 0){
+                        debugger
                         if(res.data.result.billList.length <= 0){
                             if(this.page == 0){
                                 this.hasData = false

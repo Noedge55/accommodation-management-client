@@ -24,8 +24,7 @@
                     </template>
                     <p class="info-time"><span>支付时间：</span>{{item.spendTime}}</p>
                 </div>
-                <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;
-                </router-link>
+                <router-link tag="button" :to="'/billDetail/' + item.id" class="iconfont to-button">&#xe617;</router-link>
             </li>
         </ul>
     </div>
