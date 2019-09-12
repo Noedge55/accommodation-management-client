@@ -133,10 +133,14 @@
                 if(!this.checkIds){
                     this.checkIds = this.hostelIds
                 }
+                // if(this.startValue && this.endValue){
+                //     this.startValue = this.startValue.format('YYYY-MM-DD')
+                //     this.endValue = this.endValue.format('YYYY-MM-DD')
+                // }
                 let params = {
                     dateType:this.dateType,
-                    startDate:this.startValue,
-                    endDate:this.endValue,
+                    startDate:this.startValue?this.startValue.format('YYYY-MM-DD'):'',
+                    endDate:this.endValue?this.endValue.format('YYYY-MM-DD'):'',
                     checkIds: this.checkIds
                 }
                 this.$emit('paramsChange',params,0)
@@ -177,10 +181,10 @@
         },
         watch:{
             startValue(val) {
-                console.log('startValue', val)
+                console.log('startValue', val.format('YYYY-MM-DD'))
             },
             endValue(val) {
-                console.log('endValue', val)
+                console.log('endValue', val.format('YYYY-MM-DD'))
             },
             dateType:function (val) {
                 if(val == 'byDay'){

@@ -3,7 +3,7 @@
         <order-header></order-header>
         <order-filter :hostelList="hostelList" :hostelIds="hostelIds" :billStatistics="billStatistics" v-on:paramsChange="paramsChange"></order-filter>
         <main class="position-box">
-            <vue-better-scroll v-show="HasData"
+            <vue-better-scroll v-show="hasData"
                                class="wrapper"
                                ref="scroll"
                                :scrollbar="true"
@@ -14,7 +14,7 @@
                                @pulling-up="onPullingUp">
                 <order-item v-on:paramsChange="paramsChange" :billList="billList"></order-item>
             </vue-better-scroll>
-            <div class="no-content" v-show="! HasData">
+            <div class="no-content" v-show="!hasData">
                 暂无数据
             </div>
         </main>
@@ -29,6 +29,7 @@
         name: "Order",
         data(){
             return{
+                hasData:true,
                 hostelId:this.$route.params.personId,
                 dateType:this.$route.query.date,
                 startDate:'',
@@ -60,7 +61,6 @@
                 scrollToY: 0,
                 scrollToTime: 700,
                 totalPage:0,
-                HasData:true
             }
         },
         components:{OrderHeader,OrderFilter,OrderItem},
@@ -101,14 +101,14 @@
                 console.info(res)
                 if(res.data){
                     if(res.data.retCode == 0){
-                        debugger
+                        this.billStatistics = res.data.result.billStatistics;
                         if(res.data.result.billList.length <= 0){
                             if(this.page == 0){
                                 this.hasData = false
                             }
                             this.totalPage = this.page
                             this.$refs.scroll.forceUpdate(false)
-                            return
+                            return;
                         }else {
                             this.hasData = true
                         }
@@ -118,7 +118,6 @@
                         res.data.result.billList.forEach(function (item) {
                             me.billList.push(item)
                         })
-                        this.billStatistics = res.data.result.billStatistics;
                         this.$refs.scroll.forceUpdate(true)
                     }else {
                         alert(res.data.message)
@@ -144,6 +143,9 @@
                 this.page++
                 this.paramsChange(this.page,1)
             }
+        },
+        watch:{
+
         },
         mounted(){
             this.$axios.post("/am/getHostels.html").then(this.getHostelsSucc)

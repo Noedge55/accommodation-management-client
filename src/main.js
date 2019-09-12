@@ -21,7 +21,6 @@ Vue.prototype.$qs = Qs
 Vue.component('icon-svg', IconSvg)
 Vue.use(VueBetterScroll)
 Vue.use(global)
-
 fastClick.attach(document.body)
 
 /* eslint-disable no-new */

@@ -1,15 +1,16 @@
 <template>
     <div class="header">
         <div class="header-warp">
-            <div class="header-left" v-show="isShowLeft" @click="back()">
-                <div class="iconfont back-icon">&#xe624;</div>
+            <div class="header-left" v-show="isShowLeft" @click="headerLeftClickHandle">
+                <div class="iconfont back-icon" v-html="leftText"></div>
             </div>
             <div class="header-title">
                 {{title}}
             </div>
             <slot name="rightIcon">
-                <div class="header-right" v-show="isShowRight">
-                    <span class="iconfont add-icon">&#xe61e;</span>
+                <div class="header-right" v-show="isShowRight" @click="headerRightClickHandle">
+                    <span v-if="isAdd" class="iconfont add-icon">&#xe61e;</span>
+                    <span v-else class="iconfont add-icon" v-html="rightText"></span>
                 </div>
             </slot>
         </div>
@@ -22,12 +23,48 @@
         props:{
             title:String,
             isShowLeft:Boolean,
-            isShowRight:Boolean
+            isShowRight:Boolean,
+            isAdd:Boolean,
+        },
+        data(){
+            return{
+                rightText:'&#xe63c;',
+                leftText:'&#xe624;',
+                count:0
+            }
         },
         methods:{
             back(){
                 this.$router.go(-1)
+            },
+            headerLeftClickHandle(){
+              if(this.leftText == '&#xe624;'){
+                  this.back()
+              }else{
+                  this.$parent.$emit('header-left-click-handle')
+                  this.changeIconText();
+              }
+            },
+            headerRightClickHandle(){
+                if(this.isShowRight){
+                    this.$parent.$emit('header-right-click-handle')
+                    if(!this.isAdd){
+                        this.changeIconText();
+                    }
+                }
+            },
+            changeIconText(){
+                if(this.rightText == '&#xe63c;'){
+                    this.rightText = '完成'
+                    this.leftText = '取消'
+                }else{
+                    this.rightText = '&#xe63c;'
+                    this.leftText = '&#xe624;'
+                }
             }
+        },
+        mounted() {
+            console.info(this.isAdd)
         }
     }
 </script>

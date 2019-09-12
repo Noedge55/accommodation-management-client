@@ -18,10 +18,13 @@ module.exports = {
                 changeOrigin: true,
                 pathRewrite: {
                     '^/am': '/'
+                },
+                header:{
+                  'Access-Control-Allow-Origin':'*'
                 }
             }
         }
     },configureWebpack: {
-        devtool: 'eval-source-map'
+        devtool: 'source-map'
     }
 }

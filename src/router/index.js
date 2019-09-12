@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '../pages/login/Login'
 import Home from '../pages/home/Home'
 import Order from '../pages/order/Order'
+import Detail from "../pages/detail/Detail";
 
 Vue.use(Router)
 
@@ -31,6 +32,13 @@ const router = new Router({
 
       },
       component: Order
+    },{
+      path:'/detail',
+      name:'Detail',
+      meta:{
+        requireAuth:true,
+      },
+      component:Detail
     }
   ]
 })

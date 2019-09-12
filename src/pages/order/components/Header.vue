@@ -1,6 +1,6 @@
 <template>
     <div>
-        <common-header :title="'订单'" :is-show-left="true" :is-show-right="true">
+        <common-header :title="'订单'" :is-show-left="true" :is-show-right="true" :is-add="true">
             <router-link to="/addOrder">
                 <slot name="rightIcon"></slot>
             </router-link>

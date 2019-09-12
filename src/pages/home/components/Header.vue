@@ -1,6 +1,6 @@
 <template>
     <div>
-        <common-header :title="'主页'" :is-show-left="false" :is-show-right="true">
+        <common-header :title="'主页'" :is-show-left="false" :is-show-right="true" :is-add="true">
             <router-link to="/addHotel.html">
                 <slot name="rightIcon"></slot>
             </router-link>
@@ -12,7 +12,7 @@
     import CommonHeader from '../../common/Header'
     export default {
         name: "HomeHeader",
-        components:{CommonHeader}
+        components:{CommonHeader},
     }
 </script>
 
