@@ -32,6 +32,12 @@
                 </div>
                 <div class="itemColumn"><span class="title">入住人数</span><span class="content">{{item.livingNum}}</span></div>
                 <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
+                <div class="livingContainer">
+                    <div>入住安排</div>
+                    <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
+                    <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
+                </div>
+
                 <div class="itemColumn"><span class="title">入店时间</span><span class="content">{{item.checkInDate}}</span></div>
                 <div class="itemColumn"><span class="title">离店时间</span><span class="content">{{item.checkOutDate}}</span></div>
             </div>
@@ -151,4 +157,9 @@
             background: #fff
             float right
             text-align right
+    .livingContainer
+        padding 0.1rem
+        margin 0.2rem
+        border solid 1px #cacaca
+        border-radius .1rem
 </style>
