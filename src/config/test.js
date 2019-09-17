@@ -9,5 +9,4 @@ let billIcon = {
     8:{name:"携程",iconStyle: "&#xe7e5;"},
     9:{name:"去哪儿",iconStyle: "&#xe64d;"},
 }
-
 console.info(billIcon["1"].iconStyle)

@@ -9,8 +9,7 @@
             </div>
             <slot name="rightIcon">
                 <div class="header-right" v-show="isShowRight" @click="headerRightClickHandle">
-                    <span v-if="isAdd" class="iconfont add-icon">&#xe61e;</span>
-                    <span v-else class="iconfont add-icon" v-html="rightText"></span>
+                    <span class="iconfont add-icon" v-html="rightText"></span>
                 </div>
             </slot>
         </div>
@@ -18,6 +17,7 @@
 </template>
 
 <script>
+    import eventBus from '../../config/eventBus'
     export default {
         name: "CommonHeader",
         props:{
@@ -25,10 +25,11 @@
             isShowLeft:Boolean,
             isShowRight:Boolean,
             isAdd:Boolean,
+            rightType:String
         },
         data(){
             return{
-                rightText:'&#xe63c;',
+                // rightText:'&#xe63c;',
                 leftText:'&#xe624;',
                 count:0
             }
@@ -47,20 +48,37 @@
             },
             headerRightClickHandle(){
                 if(this.isShowRight){
-                    this.$parent.$emit('header-right-click-handle')
-                    if(!this.isAdd){
-                        this.changeIconText();
-                    }
+                    eventBus.$emit('header-right-click-handle')
                 }
             },
             changeIconText(){
-                if(this.rightText == '&#xe63c;'){
-                    this.rightText = '完成'
-                    this.leftText = '取消'
-                }else{
-                    this.rightText = '&#xe63c;'
-                    this.leftText = '&#xe624;'
+                // if(this.rightText == '&#xe63c;'){
+                //     this.rightText = '完成'
+                //     this.leftText = '取消'
+                // }else{
+                //     this.rightText = '&#xe63c;'
+                //     this.leftText = '&#xe624;'
+                // }
+            },
+        },
+        computed:{
+            rightText:function () {
+                let text = "&#xe61e;"
+                switch (this.rightType) {
+                    case "add":
+                        text = "&#xe61e;"
+                        break
+                    case "edit":
+                        text = "&#xe63c;"
+                        break
+                    case "done":
+                        text = "保存"
+                        break
+                    default:
+                        text = "&#xe61e;"
+                        break
                 }
+                return text
             }
         },
         mounted() {

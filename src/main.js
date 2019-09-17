@@ -7,6 +7,7 @@ import Qs from 'qs'
 import axios from './myAxios'
 import IconSvg from './pages/common/IconSvg'
 import VueBetterScroll from 'vue2-better-scroll'
+import eventBus from './config/eventBus'
 
 import './assets/styles/iconfont/iconfont.js'
 import './assets/styles/reset.css'
@@ -18,6 +19,7 @@ import global from './config/global.js'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = Qs
+Vue.prototype.$eventBus = eventBus
 Vue.component('icon-svg', IconSvg)
 Vue.use(VueBetterScroll)
 Vue.use(global)

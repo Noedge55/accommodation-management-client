@@ -1,7 +1,7 @@
 <template>
     <div>
         <detail-header :itemType="itemType"></detail-header>
-        <detail-content :item="item" :itemType="itemType" :roomList="roomList"></detail-content>
+        <detail-content :item="item" :itemType="itemType" :roomList="roomList" :checkRoomList="checkRoomList"></detail-content>
     </div>
 </template>
 
@@ -16,6 +16,7 @@
                 item:this.$route.query.item,
                 itemType: this.$route.query.itemType,
                 roomList:[],
+                checkRoomList:[],
                 newRoomDate:''
             }
         },
@@ -40,11 +41,28 @@
                         alert(res.data.message)
                     }
                 }
+            },
+            getCheckRoomList(){
+                let orderId = this.item.id;
+                let param = {
+                    "orderId":orderId
+                }
+                this.$axios.post("/am/getCheckInRoomByOrderId.html",this.$qs.stringify(param)).then(this.getCheckRoomListSucc)
+            },
+            getCheckRoomListSucc(res){
+                console.info(res)
+                if(res.data){
+                    if(res.data.retCode == 0){
+                        this.checkRoomList = res.data.result
+                    }
+                }
             }
         },
         mounted (){
             if(this.itemType == '0'){
                 this.getRoomList()
+            }else if(this.item.billType == '0'){
+                this.getCheckRoomList()
             }
             this.$on('roomDateChangeHandle',(newDate)=>{
                 this.getRoomList(newDate)

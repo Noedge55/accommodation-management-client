@@ -7,10 +7,17 @@
             <div class="itemColumn"><span class="title">详细地址</span><span class="content">{{item.address}}</span></div>
             <div class="itemColumn"><span class="title">床位情况</span><span class="content">{{item.livingNum}} / {{item.totalNum}}</span></div>
             <a-divider>今日住房情况</a-divider>
-            <a-date-picker @change="onDateChange" placeholder="请选择日期" format="YYYY-MM-DD"/>
-            <div class="itemColumn" v-for="room of roomList" :key="room.id">
-                <span class="title">{{room.name}}</span>
-                <span class="content">{{room.livingNum}} / {{room.totalNum}}</span>
+            <div v-if="roomList.length > 0">
+                <a-date-picker @change="onDateChange" placeholder="请选择日期" format="YYYY-MM-DD"/>
+                <div class="itemColumn" v-for="room of roomList" :key="room.id">
+                    <span class="title">{{room.name}}</span>
+                    <span class="content">{{room.livingNum}} / {{room.totalNum}}</span>
+                </div>
+            </div>
+            <div v-else>
+                <div class="noneRoom">
+                    暂未添加房间
+                </div>
             </div>
         </div>
         <div v-else>
@@ -34,8 +41,10 @@
                 <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
                 <div class="livingContainer">
                     <div>入住安排</div>
-                    <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
-                    <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
+                    <div class="itemColumn" v-for="checkRoom of checkRoomList" :key="checkRoom.id">
+                        <span class="title">{{checkRoom.name}}</span>
+                        <span class="content">{{checkRoom.livingNum}}</span>
+                    </div>
                 </div>
 
                 <div class="itemColumn"><span class="title">入店时间</span><span class="content">{{item.checkInDate}}</span></div>
@@ -54,17 +63,18 @@
     export default {
         name: "DetailContent",
         components:{
-          ADivider:Divider,
-          ADatePicker:DatePicker
+            ADivider:Divider,
+            ADatePicker:DatePicker,
         },
         props:{
             item:Object,
             itemType:String,
-            roomList:Array
+            roomList:Array,
+            checkRoomList:Array
         },
         data() {
             return {
-                isDisabled:true
+                isDisabled:true,
             }
         },
         methods:{
@@ -100,7 +110,7 @@
             },
             onDateChange(date,dateString){
                 this.$parent.$emit('roomDateChangeHandle',dateString)
-            }
+            },
         },
         computed:{
             iconStyle:function () {
@@ -157,9 +167,17 @@
             background: #fff
             float right
             text-align right
+        .numberInput
+            background #cacaca
+            float right
     .livingContainer
         padding 0.1rem
         margin 0.2rem
         border solid 1px #cacaca
         border-radius .1rem
+    .noneRoom
+        height 0.8rem
+        line-height 0.8rem
+        width 100%
+        text-align center
 </style>

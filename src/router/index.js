@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Login from '../pages/login/Login'
 import Home from '../pages/home/Home'
 import Order from '../pages/order/Order'
-import Detail from "../pages/detail/Detail";
+import Detail from "../pages/detail/Detail"
+import Addition from "../pages/addition/Addition"
 
 Vue.use(Router)
 
@@ -39,6 +40,13 @@ const router = new Router({
         requireAuth:true,
       },
       component:Detail
+    },{
+      path:'/addition',
+      name:'Addition',
+      meta:{
+        requireAuth:true,
+      },
+      component:Addition
     }
   ]
 })
