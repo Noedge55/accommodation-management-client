@@ -24,7 +24,7 @@
                     </template>
                     <p class="info-time"><span>支付时间：</span>{{item.spendTime}}</p>
                 </div>
-                <router-link tag="button" :to="{path:'/detail',query:{item:item,itemType:'1'}}" class="iconfont to-button">&#xe617;</router-link>
+                <router-link tag="button" :to="{path:'/detail',query:{item:JSON.stringify(item),itemType:'1'}}" class="iconfont to-button">&#xe617;</router-link>
             </li>
         </ul>
     </div>

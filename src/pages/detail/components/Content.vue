@@ -8,7 +8,10 @@
             <div class="itemColumn"><span class="title">床位情况</span><span class="content">{{item.livingNum}} / {{item.totalNum}}</span></div>
             <a-divider>今日住房情况</a-divider>
             <div v-if="roomList.length > 0">
-                <a-date-picker @change="onDateChange" placeholder="请选择日期" format="YYYY-MM-DD"/>
+                <div class="chooseHeader">
+                    <a-date-picker @change="onDateChange" placeholder="请选择日期" format="YYYY-MM-DD"/>
+                    <a-button class="chooseButton" @click="addRoomHandle">点击添加房间</a-button>
+                </div>
                 <div class="itemColumn" v-for="room of roomList" :key="room.id">
                     <span class="title">{{room.name}}</span>
                     <span class="content">{{room.livingNum}} / {{room.totalNum}}</span>
@@ -16,7 +19,8 @@
             </div>
             <div v-else>
                 <div class="noneRoom">
-                    暂未添加房间
+                    <span>暂未添加房间</span><br>
+                    <a-button @click="addRoomHandle">点击添加房间</a-button>
                 </div>
             </div>
         </div>
@@ -35,7 +39,7 @@
             <div v-if="item.billType == 0">
                 <div class="itemColumn">
                     <span class="title">支付方式</span>
-                    <span class="content">{{billTypes[Number(item.sourceId) - 1].name}}</span>
+                    <span class="content">{{checkInSources[Number(item.sourceId) - 1].name}}</span>
                 </div>
                 <div class="itemColumn"><span class="title">入住人数</span><span class="content">{{item.livingNum}}</span></div>
                 <div class="itemColumn"><span class="title">联系人</span><span class="content">{{item.personNames}}</span></div>
@@ -58,13 +62,14 @@
 
 <script>
     import eventBus from '../../../config/eventBus';
-    import {Divider,DatePicker} from 'ant-design-vue'
+    import {Divider,DatePicker,Button} from 'ant-design-vue'
 
     export default {
         name: "DetailContent",
         components:{
             ADivider:Divider,
             ADatePicker:DatePicker,
+            AButton:Button
         },
         props:{
             item:Object,
@@ -111,6 +116,13 @@
             onDateChange(date,dateString){
                 this.$parent.$emit('roomDateChangeHandle',dateString)
             },
+            addRoomHandle(){
+                let hostelId = this.item.hostelId
+                this.$router.push({
+                    path:"/addition",
+                    query:{itemType:1,itemId:hostelId}
+                })
+            }
         },
         computed:{
             iconStyle:function () {
@@ -180,4 +192,9 @@
         line-height 0.8rem
         width 100%
         text-align center
+    .chooseHeader
+        width 100%
+        padding 0 0.2rem
+        .chooseButton
+            float right
 </style>

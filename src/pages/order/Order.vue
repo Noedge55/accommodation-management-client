@@ -1,6 +1,6 @@
 <template>
     <div>
-        <order-header></order-header>
+        <order-header :hostelList="hostelList"></order-header>
         <order-filter :hostelList="hostelList" :hostelIds="hostelIds" :billStatistics="billStatistics" v-on:paramsChange="paramsChange"></order-filter>
         <main class="position-box">
             <vue-better-scroll v-show="hasData"

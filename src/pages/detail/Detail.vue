@@ -1,6 +1,6 @@
 <template>
     <div>
-        <detail-header :itemType="itemType"></detail-header>
+        <detail-header :itemType="itemType" ></detail-header>
         <detail-content :item="item" :itemType="itemType" :roomList="roomList" :checkRoomList="checkRoomList"></detail-content>
     </div>
 </template>
@@ -13,7 +13,7 @@
         components:{DetailHeader,DetailContent},
         data(){
             return{
-                item:this.$route.query.item,
+                item:JSON.parse(this.$route.query.item),
                 itemType: this.$route.query.itemType,
                 roomList:[],
                 checkRoomList:[],

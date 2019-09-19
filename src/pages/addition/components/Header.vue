@@ -19,6 +19,15 @@
                     case 0:
                         title = "新增旅社"
                         break
+                    case 1:
+                        title = "添加房间"
+                        break
+                    case 2:
+                        title = "添加订单"
+                        break
+                    default :
+                        title = "新增旅社"
+                        break
                 }
                 return title
             }

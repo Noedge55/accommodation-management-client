@@ -1,9 +1,7 @@
 <template>
     <div>
-        <common-header :title="'订单'" :is-show-left="true" :is-show-right="true" :is-add="true">
-            <router-link to="/addOrder">
-                <slot name="rightIcon"></slot>
-            </router-link>
+        <common-header :title="'订单'" :is-show-left="true" :is-show-right="true" :right-type="'add'">
+            <slot name="rightIcon"></slot>
         </common-header>
     </div>
 </template>
@@ -13,10 +11,22 @@
     export default {
         name: "OrderHeader",
         components: {CommonHeader},
+        props:{
+            hostelList:Array
+        },
         methods:{
             back(){
                 this.$router.go(-1)
             }
+        },
+        mounted() {
+            let me = this
+            me.$eventBus.$on('header-right-click-handle',()=>{
+                me.$router.push({
+                    path:"/addition",
+                    query:{itemType:2,hostelList:JSON.stringify(this.hostelList)}
+                })
+            })
         }
     }
 </script>

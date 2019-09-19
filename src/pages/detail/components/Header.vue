@@ -1,5 +1,5 @@
 <template>
-    <common-header :title="returnTitle()" :is-show-left="true" :is-show-right="true" :is-add="false">
+    <common-header :title="title" :is-show-left="true" :is-show-right="true" :right-type="rightType">
         <slot name="rightIcon" ></slot>
     </common-header>
 </template>
@@ -15,20 +15,24 @@
         },
         data(){
             return{
-                isEdit:false
+                isEdit:false,
+                title:"",
+                rightType:""
             }
         },
         methods:{
             returnTitle(){
                 if(this.itemType == 1){
-                    return '订单详情';
+                    this.title = "订单详情"
+                    this.rightType = "add"
                 }else{
-                    return '旅社详情';
+                    this.title="旅社详情"
+                    this.rightType = "edit"
                 }
             }
         },
         mounted(){
-
+            this.returnTitle()
         },
         created() {
             this.$on('header-right-click-handle',()=>{

@@ -10,7 +10,7 @@
                         <p class="info-desc"><span>床位情况：</span>{{item.livingNum}} / {{item.totalNum}}</p>
                     <router-link :to="'/editHostel/' + item.id" :hostelId="item.hostelId" class="iconfont edit-button">&#xe63c;</router-link>
                 </div>
-                <router-link tag="button" :to="{path:'/detail',query:{item:item,itemType:'0'}}" class="iconfont to-button">&#xe627;</router-link>
+                <router-link tag="button" :to="{path:'/detail',query:{item:JSON.stringify(item),itemType:'0'}}" class="iconfont to-button">&#xe627;</router-link>
             </li>
         </ul>
     </div>

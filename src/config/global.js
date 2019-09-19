@@ -14,7 +14,7 @@ export default {
             10:"&#xe68f;",      //收入
             11:"&#xe62b;"       //支出
         },
-        Vue.prototype.billTypes = [
+        Vue.prototype.checkInSources = [
             {value:1,name:"支付宝",iconStyle:"&#xe65f;"},
             {value:2,name:"微信",iconStyle: "&#xe619;"},
             {value:3,name:"长租",iconStyle: "&#xe61c;"},
