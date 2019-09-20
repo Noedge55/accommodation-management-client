@@ -71,11 +71,13 @@
             <div class="inputContent">
                 金额：<a-input-number :step="0.01" v-model="amount"></a-input-number>
             </div>
-            <a-divider class="divider">入住安排</a-divider>
-            <div class="inputContent">
-                <span>男生4人间：</span>
-                <a-input-number :min="0"></a-input-number>
-                <span style="float: right">剩余床位：2</span>
+            <div v-show="orderCheckOutDate && orderCheckInDate && billHostelId">
+                <a-divider class="divider">入住安排</a-divider>
+                <div class="inputContent">
+                    <span>男生4人间：</span>
+                    <a-input-number :min="0"></a-input-number>
+                    <span style="float: right">剩余床位：2</span>
+                </div>
             </div>
         </div>
     </div>
@@ -299,32 +301,6 @@
                         this.errorModal("入住人数必须为大于0的整数")
                     }
                 }
-            },
-            returnAmount(amount){
-              if(amount > 0){
-                  return "+" + amount.toFixed(2)
-              }
-              return amount.toFixed(2)
-            },
-            returnAmountColor(amount) {
-                if (Number(amount) < 0) {
-                    return {color: 'green'}
-                }
-            },
-            returnBillTypeValue(){
-                let value = "";
-                switch (this.item.billType) {
-                    case 0:
-                        value = "入住账单"
-                        break
-                    case 1:
-                        value = "其它收入账单"
-                        break
-                    default:
-                        value = "支出账单"
-                        break
-                }
-                return value
             },
             returnProvinceData(){
                 let proList = []
