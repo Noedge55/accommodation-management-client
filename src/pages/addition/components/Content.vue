@@ -114,7 +114,6 @@
                 //添加房间的变量
                 totalNum:"",//房间总床位
                 //添加账单的变量
-                allHostelList:JSON.parse(this.$route.query.hostelList),
                 endOpen: false,
                 checkInSources:this.checkInSources,
                 billHostelId:"",
@@ -140,9 +139,6 @@
             },
             orderChooseHostelHandleChange(value){
                 this.billHostelId = value
-                if(this.billHostelId){
-                    this.getRoomList();
-                }
             },
             orderChooseBillTypeHandleChange(value){
                 this.billType = value
@@ -314,6 +310,22 @@
                     proList.push(tempObj)
                 })
                 return proList
+            },
+            getRoomMaxCanLivingNum(){
+                if(this.itemType == 2 && this.billType == 0){
+                    if(this.billHostelId && this.orderCheckInDate && this.orderCheckOutDate){
+                        let param = {}
+                        param = {
+                            hostelId:this.billHostelId,
+                            checkInDate:this.orderCheckInDate.format("YYYY-MM-DD"),
+                            checkOutDate:this.orderCheckOutDate.format("YYYY-MM-DD")
+                        }
+                        this.$axios.post("/am/getHostelCanLiving.html",this.$qs.stringify(param)).then(this.getRoomMaxCanLivingNumSucc)
+                    }
+                }
+            },
+            getRoomMaxCanLivingNumSucc(res){
+                console.info(res)
             }
         },
         computed:{
@@ -321,6 +333,13 @@
             //     console.info(this.item.billType == 0 ? this.billIcon[this.item.sourceId]:this.item.billType == 1 ? this.billIcon[10] : this.billIcon[11])
             //     return this.item.billType == 0 ? this.billIcon[this.item.sourceId]:this.item.billType == 1 ? this.billIcon[10] : this.billIcon[11]
             // },
+            allHostelList:function () {
+                let res = ""
+                if(this.$route.query.hostelList){
+                    res = JSON.parse(this.$route.query.hostelList)
+                }
+                return res
+            }
         },
         mounted(){
             let me = this;
@@ -339,6 +358,17 @@
                         alert("itemType 不能为空")
                 }
             })
+        },
+        watch:{
+            orderCheckInDate:function(){
+                this.getRoomMaxCanLivingNum()
+            },
+            orderCheckOutDate:function () {
+                this.getRoomMaxCanLivingNum()
+            },
+            billHostelId:function () {
+                this.getRoomMaxCanLivingNum()
+            }
         },
         created() {
         },
